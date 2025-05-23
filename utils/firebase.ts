@@ -1,14 +1,57 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { useState } from "react";
+import { db } from "../../utils/firebase"; // ispravljena putanja
+import { addDoc, collection } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA2LFfP0bqUpyv0J73PxWsQxVQRHFJgllHo",
-  authDomain: "pinfTmarket.firebaseapp.com",
-  projectId: "pinfTmarket",
-  storageBucket: "pinfTmarket.appspot.com",
-  messagingSenderId: "79815613305",
-  appId: "1:79815613305:web:0d06762da5111f36d6ada8"
-};
+export default function UploadForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    image: "",
+  });
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+  const handleChange = (e: any) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    await addDoc(collection(db, "nfts"), {
+      ...formData,
+      status: "pending",
+      createdAt: new Date(),
+    });
+    alert("NFT submitted for review!");
+    setFormData({ name: "", description: "", price: "", image: "" });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
+      <h3>Add New NFT</h3>
+      <input
+        name="name"
+        placeholder="Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <input
+        name="description"
+        placeholder="Description"
+        value={formData.description}
+        onChange={handleChange}
+      />
+      <input
+        name="price"
+        placeholder="Price (in Pi)"
+        value={formData.price}
+        onChange={handleChange}
+      />
+      <input
+        name="image"
+        placeholder="Image URL"
+        value={formData.image}
+        onChange={handleChange}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
