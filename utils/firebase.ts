@@ -3,18 +3,18 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-// Konfiguracija iz Firebase konzole (zamijeni svojim podacima ako treba)
+// Tvoja stvarna Firebase konfiguracija
 const firebaseConfig = {
-  apiKey: "AIzaSyA2LFFP0bqUpyv0J73PxWsQxVQRHFJg1lHo",
-  authDomain: "pinftmarket.firebaseapp.com",
-  projectId: "pinftmarket",
-  storageBucket: "pinftmarket.appspot.com",
+  apiKey: "AIzaSyA2LFfP0bqUpyv0J73PxWsQxVQRHFJgllHo",
+  authDomain: "pinfTmarket.firebaseapp.com",
+  projectId: "pinfTmarket",
+  storageBucket: "pinfTmarket.appspot.com",
   messagingSenderId: "79815613305",
   appId: "1:79815613305:web:0d06762da5111f36d6ada8"
 };
 
-// Inicijalizacija aplikacije i baze
+// Inicijalizuj Firebase aplikaciju
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-export { db };
+// Inicijalizuj Firestore bazu
+export const db = getFirestore(app);
