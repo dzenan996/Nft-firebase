@@ -1,18 +1,25 @@
+// components/UploadForm.tsx
 import { useState } from "react";
 import { db } from "../utils/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
 export default function UploadForm() {
-  const [formData, setFormData] = useState({ name: "", description: "", price: "", image: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    image: "",
+  });
 
-  const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: any) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     await addDoc(collection(db, "nfts"), {
       ...formData,
       status: "pending",
-      createdAt: new Date()
+      createdAt: new Date(),
     });
     alert("NFT submitted for review!");
     setFormData({ name: "", description: "", price: "", image: "" });
@@ -21,10 +28,30 @@ export default function UploadForm() {
   return (
     <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
       <h3>Add New NFT</h3>
-      <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
-      <input name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
-      <input name="price" placeholder="Price (in Pi)" value={formData.price} onChange={handleChange} />
-      <input name="image" placeholder="Image URL" value={formData.image} onChange={handleChange} />
+      <input
+        name="name"
+        placeholder="Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <input
+        name="description"
+        placeholder="Description"
+        value={formData.description}
+        onChange={handleChange}
+      />
+      <input
+        name="price"
+        placeholder="Price (in Pi)"
+        value={formData.price}
+        onChange={handleChange}
+      />
+      <input
+        name="image"
+        placeholder="Image URL"
+        value={formData.image}
+        onChange={handleChange}
+      />
       <button type="submit">Submit</button>
     </form>
   );
